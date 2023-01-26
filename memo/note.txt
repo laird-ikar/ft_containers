@@ -1,0 +1,70 @@
+***GLOBAL***
+
+std::iterator_traits
+std::reverse_iterator
+std::enable_if (Yes, it is C++11 but you will be able to implement it in a C++98 manner.
+                This is asked so you can discover SFINAE.)
+std::is_integral
+std::equal and/or std::lexicographical_compare
+std::pair
+std::make_pair
+
+***VECTOR***
+//DO NOT vector<bool>
+
+//TODO: iterator invalidation part
+
+> MEMBER types
+
+value_type (T)
+allocator_type (Allocator)
+size_type (size_t)
+difference_type (ptrdiff_t)
+reference (value_type&)
+const_reference (const value_type&)
+pointer (Allocator::pointer)
+const_pointer (Allocator::const_pointer)
+iterator (???)
+const_iterator (const ???)
+reverse_iterator (std::reverse_iterator<iterator>)
+const_reverse_iterator (std::reverse_iterator<const_iterator>)
+
+> MEMBER functions
+
+constructor / destructor
+=
+assign
+get_allocator
+at
+[]
+front
+back
+data
+begin
+end
+rbegin
+rend
+empty
+size
+max_size
+reserve
+capacity
+clear
+insert
+erase
+push_back
+pop_back
+resize
+swap
+
+> NON MEMBER functions (for overloads, `friend` allowed but must be justify)
+
+==
+!=
+<
+<=
+>
+>=
+std::swap
+
+
