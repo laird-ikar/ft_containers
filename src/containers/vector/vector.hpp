@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/01/30 14:56:32 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/01/31 14:31:11 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <memory>
 
-#include "../../helpers/random_access_iterator/random_access_iterator.tpp" //g envie dcrever rien qu'davoir a ecrire ca
+// #include "../../helpers/random_access_iterator/random_access_iterator.tpp" //g envie dcrever rien qu'davoir a ecrire ca
 #include "../../helpers/reverse_iterator/reverse_iterator.tpp"
 
 namespace ft
@@ -23,6 +23,21 @@ namespace ft
 	template<class T, class Allocator = std::allocator<T> >
 	class vector
 	{
+		private:
+			template<class T_it>
+			class _iterator
+			{
+				public:
+					typedef	std::random_access_iterator_tag	category;
+					typedef	T_it							value_type;
+					typedef	long long int					difference_type;
+					typedef	T_it*							pointer;
+					typedef	T_it&							reference;
+				
+				private:
+					pointer ptr;
+			};
+
 		public:
 			typedef	T														value_type;
 			typedef	Allocator												allocator_type;
@@ -30,11 +45,11 @@ namespace ft
 			typedef	typename allocator_type::const_reference				const_reference;
 			typedef	typename allocator_type::pointer						pointer;
 			typedef	typename allocator_type::const_pointer					const_pointer;
-			typedef	typename ft::random_access_iterator<value_type>			iterator;
-			typedef	typename ft::random_access_iterator<const value_type>	const_iterator;
+			typedef	_iterator<value_type>									iterator;
+			typedef	_iterator<const value_type>								const_iterator;
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
-			typedef	typename iterator_traits<iterator>::difference_type		difference_type;
+			typedef	typename ft::iterator_traits<iterator>::difference_type	difference_type;
 			typedef	size_t													size_type;
 
 		private:

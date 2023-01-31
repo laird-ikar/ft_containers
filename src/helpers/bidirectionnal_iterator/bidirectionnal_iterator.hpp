@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 17:21:47 by bguyot            #+#    #+#             */
-/*   Updated: 2023/01/31 10:43:32 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/01/31 13:43:14 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft
 			bidirectionnal_iterator(void);
 			bidirectionnal_iterator(const bidirectionnal_iterator &rht);
 			virtual ~bidirectionnal_iterator();
-
+			
 			bidirectionnal_iterator			&operator=(const bidirectionnal_iterator &rht);
 			bidirectionnal_iterator			&operator++(void);
 			bidirectionnal_iterator			&operator++(int);
@@ -48,6 +48,7 @@ namespace ft
 		bidirectionnal_iterator<T> lhs,
 		bidirectionnal_iterator<T> rhs
 		);
+		
 	template<class T>
 	bool	operator!=(
 		bidirectionnal_iterator<T> lhs,
