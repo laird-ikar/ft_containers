@@ -8,6 +8,9 @@
 		"vector": "cpp",
 		"__node_handle": "cpp",
 		"memory_resource": "cpp",
-		"unordered_map": "cpp"
+		"unordered_map": "cpp",
+		"initializer_list": "cpp",
+		"memory": "cpp",
+		"iterator": "cpp"
 	}
 }

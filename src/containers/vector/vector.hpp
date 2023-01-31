@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/01/26 15:46:16 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/01/30 14:56:32 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 
 #include <memory>
 
-#include "../../helpers/random_access_iterator/random_access_iterator.hpp" //g envie dcrever rien qu'davoir a ecrire ca
-#include "../../helpers/reverse_iterator/reverse_iterator.hpp"
+#include "../../helpers/random_access_iterator/random_access_iterator.tpp" //g envie dcrever rien qu'davoir a ecrire ca
+#include "../../helpers/reverse_iterator/reverse_iterator.tpp"
 
 namespace ft
 {
-	template<class T, class Allocator = std::allocator<T>>
+	template<class T, class Allocator = std::allocator<T> >
 	class vector
 	{
 		public:
-			typedef	T											value_type;
-			typedef	Allocator									allocator_type;
-			typedef	allocator_type::reference					reference;
-			typedef	allocator_type::const_reference				const_reference;
-			typedef	allocator_type::pointer						pointer;
-			typedef	allocator_type::const_pointer				const_pointer;
-			typedef	random_access_iterator<value_type>			iterator;
-			typedef	random_access_iterator<const value_type>	const_iterator;
-			typedef reverse_iterator<iterator>					reverse_iterator;
-			typedef reverse_iterator<const_iterator>			const_reverse_iterator;
-			typedef	iterator_traits<iterator>::difference_type	difference_type;
-			typedef	size_t										size_type;
+			typedef	T														value_type;
+			typedef	Allocator												allocator_type;
+			typedef	typename allocator_type::reference						reference;
+			typedef	typename allocator_type::const_reference				const_reference;
+			typedef	typename allocator_type::pointer						pointer;
+			typedef	typename allocator_type::const_pointer					const_pointer;
+			typedef	typename ft::random_access_iterator<value_type>			iterator;
+			typedef	typename ft::random_access_iterator<const value_type>	const_iterator;
+			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef	typename iterator_traits<iterator>::difference_type		difference_type;
+			typedef	size_t													size_type;
 
 		private:
 			value_type	*data;
@@ -44,13 +44,13 @@ namespace ft
 			
 		public:
 			/**
-			 *	@brief	Construct an empty vector with no elements
+			 *	@brief	Constructs an empty vector with no elements
 			 *	@param	alloc	allocator object, keeped and used by the vector
 			 */
 			vector(const allocator_type &alloc = allocator_type());
 
 			/**
-			 *	@brief	Construct a vector of size n filled with copy of val
+			 *	@brief	Constructs a vector of size n filled with copy of val
 			 *	@param	n		initial vector size 
 			 *	@param	val		value to fill the container with
 			 *	@param	alloc	allocator object, keeped and used by the vector
@@ -58,7 +58,8 @@ namespace ft
 			vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type());
 			
 			/**
-			 *	@brief	Construct a vector which contents is a copy of the range [first, last)
+			 *	@brief	Constructs a vector which contents is a copy of the range [first, last)
+			 *	@t
 			 *	@param	first	the start of the range to copy
 			 *	@param	last	the end of the range to copy (will not be copied)
 			 *	@param	alloc	Allocator object, keeped and used by the vector
@@ -67,7 +68,7 @@ namespace ft
 			vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
 
 			/**
-			 *	@brief	Construct a new vector which is a copy of x
+			 *	@brief	Constructs a new vector which is a copy of x
 			 *	@param	x	the vector to copy
 			 */
 			vector(const vector& x);
