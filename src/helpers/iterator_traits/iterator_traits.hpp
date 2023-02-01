@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reverse_iterator.hpp                               :+:      :+:    :+:   */
+/*   iterator_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/01 12:54:48 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/01 13:28:33 by bguyot           ###   ########.fr       */
+/*   Created: 2023/02/01 12:59:40 by bguyot            #+#    #+#             */
+/*   Updated: 2023/02/01 13:19:48 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef REVERSE_ITERATOR_HPP
-#define REVERSE_ITERATOR_HPP
+#ifndef ITERATOR_TRAITS_HPP
+#define ITERATOR_TRAITS_HPP
 
 namespace ft
 {
 	/**
-	 * @tparam	It	The iterator class we are to reverse
-	*/
+	 * @tparam	It	The iterator type we are to trait (?)
+	 */
 	template<class It>
-	class reverse_iterator
-	{};
+	class iterator_traits
+	{};	
 }
+
 
 #endif

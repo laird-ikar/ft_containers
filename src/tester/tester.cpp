@@ -6,11 +6,15 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:45:31 by bguyot            #+#    #+#             */
-/*   Updated: 2023/01/31 14:31:45 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/01 12:43:54 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/ft_containers.hpp"
 
 int main()
-{}
+{
+    ft::vector<int> v;
+
+    (void) v;
+}

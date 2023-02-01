@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/01/31 14:31:11 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/01 17:04:15 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,23 @@
 #include <memory>
 
 // #include "../../helpers/random_access_iterator/random_access_iterator.tpp" //g envie dcrever rien qu'davoir a ecrire ca
-#include "../../helpers/reverse_iterator/reverse_iterator.tpp"
+#include "../../helpers/reverse_iterator/reverse_iterator.hpp"
+#include "../../helpers/iterator_traits/iterator_traits.hpp"
 
 namespace ft
 {
+	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
+	 */
 	template<class T, class Allocator = std::allocator<T> >
 	class vector
 	{
 		private:
-			template<class T_it>
+			/**
+			 * @tparam	T_it	The type of variable pointed by the iterator
+			 */
+			template<class T_it = T>
 			class _iterator
 			{
 				public:
@@ -36,6 +44,78 @@ namespace ft
 				
 				private:
 					pointer ptr;
+
+				public:
+					/**
+					 * @brief	Constructs an iterator pointing on nullptr
+					 */
+					_iterator(void);
+
+					/**
+					 * @brief	Constructs an iterator pointing on the same term as rht
+					 * @param	rht	The iterator we are copying
+					 */
+					_iterator(const _iterator &rht);
+
+					/**
+					 * @brief	Create an iterator pointing on ptr
+					 * @param	ptr	The pointer the iterator will point to
+					 */
+					_iterator(pointer ptr);
+
+					/**
+					 * @brief	Destructs the iterator
+					 */
+					~_iterator(void);
+
+					/**
+					 * @brief	Changes the address pointed by this so that it points the same as rht
+					 * @param	rht	The iterator we are copying
+					 * @return	*this
+					 */ 
+					_iterator	&operator=(const _iterator &rht);
+
+					/**
+					 * @brief	Dereferencing operator
+					 * @return	A reference to the object pointed by ptr
+					 */
+					value_type	&operator*(void);
+
+					/**
+					 * @brief	Pre-increment operator: make ptr points to the next (virtual) object in the vector
+					 * @return	A reference to this, modified
+					 */
+					_iterator	&operator++(void);
+
+					/**
+					 * @brief	Pre-decrement operator: make ptr points to the previous (virtual) object in the vector
+					 * @return	A reference to this, modified
+					 */
+					_iterator	&operator--(void);
+
+					/**
+					 * @brief	Post-increment operator: make ptr points to the next (virtual) object in the vector
+					 * @return	A copy of this before it was modified
+					 */
+					_iterator	operator++(int);
+
+					/**
+					 * @brief	Post-decrement operator: make ptr points to the previous (virtual) object in the vector
+					 * @return	A copy of this before it was modified
+					 */
+					_iterator	operator--(int);
+
+					/**
+					 * @brief	Addition operator (it + n): make ptr points to the nth next (virtual) object in the vector
+					 * @return	A reference to this modified
+					 */
+					_iterator	&operator+(difference_type n);
+
+					/**
+					 * @brief	Substraction operator (it - n): make ptr points to the nth previous (virtual) object in the vector
+					 * @return	A reference to this modified
+					 */
+					_iterator	&operator-(difference_type n);
 			};
 
 		public:
@@ -53,9 +133,10 @@ namespace ft
 			typedef	size_t													size_type;
 
 		private:
-			value_type	*data;
-			size_type	size;
-			size_type	allocated_size;
+			value_type				*_data;
+			size_type				_size;
+			size_type				_allocated_size;
+			const allocator_type	_allocator;
 			
 		public:
 			/**
@@ -74,7 +155,6 @@ namespace ft
 			
 			/**
 			 *	@brief	Constructs a vector which contents is a copy of the range [first, last)
-			 *	@t
 			 *	@param	first	the start of the range to copy
 			 *	@param	last	the end of the range to copy (will not be copied)
 			 *	@param	alloc	Allocator object, keeped and used by the vector
@@ -100,7 +180,8 @@ namespace ft
 			 */
 			vector	&operator=(const vector &x);
 
-			/************************* ITERATORS *************************/
+			/*********************************************************************************/
+			/*********************************** ITERATORS ***********************************/
 			
 			/**	
 			 *	@return	an iterator to the first element of the vector
@@ -141,8 +222,9 @@ namespace ft
 			 *	@return	a const reverse iterator to the reverse past-the-end element of the vector (i.e. the theoretical element preceding the first element)
 			 */
 			const_reverse_iterator	rend(void) const;
-			
-			/************************* CAPACITY *************************/
+
+			/*********************************************************************************/			
+			/*********************************** CAPACITY ************************************/	
 
 			/**
 			 * 	@return the number of elements in the vector
@@ -181,7 +263,8 @@ namespace ft
 			 */
 			void				reserve(size_type n);
 
-			/************************* ELEMENT ACCESS *************************/
+			/*********************************************************************************/
+			/*********************************** ELEMENT ACCESS *******************************/
 
 			/**
 			 *	@param n	Position of the element to return
@@ -231,7 +314,8 @@ namespace ft
 			 */
 			const_reference		back(void) const;
 		    
-			/************************* MODIFIERS *************************/
+			/*********************************************************************************/
+			/*********************************** MODIFIERS ************************************/
 			
 			/**
 			 *	@brief	Replace the contents with n copies of val
@@ -245,7 +329,7 @@ namespace ft
 			 *	@param	first	the start of the range to copy
 			 *	@param	last	the end of the range to copy (will not be copied)
 			 */
-			template<InputIt>
+			template<class InputIt>
 			void				assign(InputIt first, InputIt last);
 
 			/**
@@ -307,7 +391,8 @@ namespace ft
 			 */
 			void				clear(void);
 			
-			/************************* ALLOCATOR *************************/
+			/*********************************************************************************/
+			/*********************************** ALLOCATOR ************************************/
 			
 			/**
 			 *	@return A copy of the allocator object associated with the vector.
@@ -315,62 +400,114 @@ namespace ft
 			allocator_type		get_allocator(void) const;
 	};
 
+	/*********************************************************************************/
+	/***************************** NON-MEMBER FUNCTIONS ******************************/
+
 	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
 	 * @param lhs	the left term of the comparaison
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison == between lhs and rhs
 	 */
-	template <class T, class Alloc> 
-	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Allocator> 
+	bool operator== (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
 	 * @param lhs	the left term of the comparaison
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison != between lhs and rhs
 	 */
-	template <class T, class Alloc>
-	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Allocator>
+	bool operator!= (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
 	 * @param lhs	the left term of the comparaison
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison < between lhs and rhs
 	 */
-	template <class T, class Alloc>
-	bool operator< (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Allocator>
+	bool operator< (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
 	 * @param lhs	the left term of the comparaison
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison <= between lhs and rhs
 	 */
-	template <class T, class Alloc>
-	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Allocator>
+	bool operator<= (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
 	 * @param lhs	the left term of the comparaison
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison > between lhs and rhs
 	 */
-	template <class T, class Alloc>
-	bool operator> (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Allocator>
+	bool operator> (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
 	 * @param lhs	the left term of the comparaison
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison >= between lhs and rhs
 	 */
-	template <class T, class Alloc>
-	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+	template <class T, class Allocator>
+	bool operator>= (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
 	 * @brief exchange the content of the vectors x and y
 	 * @note both vectors must have the same type
 	 * @param x the element to swap with y
 	 * @param y	the element to swap with x
 	 */
-	template <class T, class Alloc>
-	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
+	template <class T, class Allocator>
+	void swap (vector<T,Allocator>& x, vector<T,Allocator>& y);
+
+	/*********************************************************************************/
+	/************************ ITERATOR NON-MEMBER FUNCTIONS **************************/
+
+	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
+	 * @param lhs	the left term of the comparaison
+	 * @param rhs	the right term of the comparaison
+	 * @return the comparaison == between lhs and rhs
+	 */
+	template <class T, class Allocator, class T_it>
+	bool	operator==(typename vector<T, Allocator>::iterator<T_it> lht, typename vector<T, Allocator>::iterator<T_it> rht);
+
+	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
+	 * @param lhs	the left term of the comparaison
+	 * @param rhs	the right term of the comparaison
+	 * @return the comparaison == between lhs and rhs
+	 */
+	template <class T, class Allocator, class T_it>
+	bool	operator!=(typename vector<T, Allocator>::iterator<T_it> lht, typename vector<T, Allocator>::iterator<T_it> rht);
+
+	/**
+	 * @tparam	T			The type of variable contained by the vector
+	 * @tparam	Allocator	The allocator used to allocate and deallocate the elements of vector
+	 * @brief	Addition operator (n + it): make ptr points to the nth next (virtual) object in the vector
+	 * @return	A reference to the modified iterator
+	 */
+	template <class T, class Allocator, class T_it>
+	typename vector<T, Allocator>::iterator<T_it>	&operator+(typename vector<T, Allocator>::iterator<T_it>::difference_type n, typename vector<T, Allocator>::iterator<T_it> &it);
 };
+
+#include "vector.tpp"
+#include "vector_iterator.tpp"
 
 #endif
