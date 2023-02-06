@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/06 14:59:15 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/06 17:12:52 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define VECTOR_HPP
 
 #include <memory>
+#include <type_traits>
 
 // #include "../../helpers/random_access_iterator/random_access_iterator.tpp" //g envie dcrever rien qu'davoir a ecrire ca
 #include "../../helpers/reverse_iterator/reverse_iterator.hpp"
@@ -75,6 +76,13 @@ namespace ft
 					 * @return	*this
 					 */ 
 					_iterator	&operator=(const _iterator &rht);
+
+					/**
+					 * @brief	Checks if rht is equivalent to this (points to the same address)
+					 * @param	rht	The iterator to compare
+					 * @return	true if they are the same, false otherwise
+					 */
+					bool	equals(const _iterator &rht);
 
 					/**
 					 * @brief	Dereferencing operator
@@ -169,7 +177,7 @@ namespace ft
 			 *	@param	last	the end of the range to copy (will not be copied)
 			 *	@param	alloc	Allocator object, keeped and used by the vector
 			 */
-			template <class InputIterator, ft::enable_if<typeid(InputIterator::value_type) == typeid(value_type), bool> >
+			template <class InputIterator/*, typename ft::enable_if<true, bool>::type* */>
 			vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
 
 			/**
@@ -420,7 +428,7 @@ namespace ft
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison == between lhs and rhs
 	 */
-	template <class T, class Allocator> 
+	template <class T, class Allocator = std::allocator<T> >
 	bool operator== (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
@@ -430,7 +438,7 @@ namespace ft
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison != between lhs and rhs
 	 */
-	template <class T, class Allocator>
+	template <class T, class Allocator = std::allocator<T> >
 	bool operator!= (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
@@ -440,7 +448,7 @@ namespace ft
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison < between lhs and rhs
 	 */
-	template <class T, class Allocator>
+	template <class T, class Allocator = std::allocator<T> >
 	bool operator< (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
@@ -450,7 +458,7 @@ namespace ft
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison <= between lhs and rhs
 	 */
-	template <class T, class Allocator>
+	template <class T, class Allocator = std::allocator<T> >
 	bool operator<= (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
@@ -460,7 +468,7 @@ namespace ft
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison > between lhs and rhs
 	 */
-	template <class T, class Allocator>
+	template <class T, class Allocator = std::allocator<T> >
 	bool operator> (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
@@ -470,7 +478,7 @@ namespace ft
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison >= between lhs and rhs
 	 */
-	template <class T, class Allocator>
+	template <class T, class Allocator = std::allocator<T> >
 	bool operator>= (const vector<T,Allocator>& lhs, const vector<T,Allocator>& rhs);
 
 	/**
@@ -481,7 +489,7 @@ namespace ft
 	 * @param x the element to swap with y
 	 * @param y	the element to swap with x
 	 */
-	template <class T, class Allocator>
+	template <class T, class Allocator = std::allocator<T> >
 	void swap (vector<T,Allocator>& x, vector<T,Allocator>& y);
 
 	/*********************************************************************************/
@@ -494,7 +502,7 @@ namespace ft
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison == between lhs and rhs
 	 */
-	template <class T, class Allocator, class T_it>
+	template <class T, class Allocator = std::allocator<T>, class T_it = T>
 	bool	operator==(typename vector<T, Allocator>::template _iterator<T_it> lht, typename vector<T, Allocator>::template _iterator<T_it> rht);
 
 	/**
@@ -504,7 +512,7 @@ namespace ft
 	 * @param rhs	the right term of the comparaison
 	 * @return the comparaison == between lhs and rhs
 	 */
-	template <class T, class Allocator, class T_it>
+	template <class T, class Allocator = std::allocator<T>, class T_it = T>
 	bool	operator!=(typename vector<T, Allocator>::template _iterator<T_it> lht, typename vector<T, Allocator>::template _iterator<T_it> rht);
 
 	/**
@@ -513,7 +521,7 @@ namespace ft
 	 * @brief	Addition operator (n + it): make ptr points to the nth next (virtual) object in the vector
 	 * @return	A reference to the modified iterator
 	 */
-	template <class T, class Allocator, class T_it>
+	template <class T, class Allocator = std::allocator<T>, class T_it = T>
 	typename vector<T, Allocator>::template _iterator<T_it>	&operator+(typename vector<T, Allocator>::template _iterator<T_it>::difference_type n, typename vector<T, Allocator>::template _iterator<T_it> &it);
 };
 

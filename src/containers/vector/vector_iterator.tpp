@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 13:30:43 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/06 14:59:15 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/06 17:12:52 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ namespace ft
 		)
 	{
 		this->ptr = rht.ptr;
+		return (*this);
 	}
 
 	template<class T, class Alloc>
@@ -66,6 +67,13 @@ namespace ft
 		this->ptr++;
 		return *this;
 		//NOTE: if we implement non-contigus dark magic, we should do stuff with that here
+	}
+
+	template<class T, class Alloc>
+	template<class T_it>
+	bool	vector<T, Alloc>::template _iterator<T_it>::equals(const typename vector<T, Alloc>::template _iterator<T_it> &rht)
+	{
+		return this->ptr == rht.ptr;
 	}
 
 	template<class T, class Alloc>

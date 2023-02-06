@@ -6,12 +6,14 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/06 14:54:03 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/06 17:12:52 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_TPP
 #define VECTOR_TPP
+
+#include <iostream>
 
 namespace ft
 {
@@ -36,7 +38,7 @@ namespace ft
     }
 
 	template<class T, class Alloc>
-    template<class InputIterator, ft::enable_if<typeid(InputIterator::value_type) == typeid(typename vector<T, Alloc>::vector::value_type), bool> >
+    template<class InputIterator/*, typename ft::enable_if<true, bool>::type* */>
     vector<T, Alloc>::vector(InputIterator first, InputIterator last, const typename vector<T,Alloc>::allocator_type &alloc)
 	{
         this->_size = 0;
@@ -49,6 +51,9 @@ namespace ft
     template<class T, class Alloc>
     vector<T,Alloc>::vector(const vector<T,Alloc> &x)
     {
+        this->_size = 0;
+        this->_allocated_size = 0;
+        this->_data = nullptr;
         *this = x;
     }
 
