@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/01 17:04:15 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/06 13:58:01 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,15 +107,24 @@ namespace ft
 
 					/**
 					 * @brief	Addition operator (it + n): make ptr points to the nth next (virtual) object in the vector
+					 * @param	n	The value to add to the pointer
 					 * @return	A reference to this modified
 					 */
 					_iterator	&operator+(difference_type n);
 
 					/**
 					 * @brief	Substraction operator (it - n): make ptr points to the nth previous (virtual) object in the vector
+					 * @param	n	The value to substract to the pointer
 					 * @return	A reference to this modified
 					 */
 					_iterator	&operator-(difference_type n);
+
+					/**
+					 * @brief	Substraction operator (this - rhs): make ptr points to the nth previous (virtual) object in the vector
+					 * @param	rhs	The iterator to substract to this
+					 * @return	A reference to this modified
+					 */
+					difference_type	&operator-(const _iterator<T_it> &rhs);
 			};
 
 		public:
@@ -133,10 +142,10 @@ namespace ft
 			typedef	size_t													size_type;
 
 		private:
-			value_type				*_data;
-			size_type				_size;
-			size_type				_allocated_size;
-			const allocator_type	_allocator;
+			value_type		*_data;
+			size_type		_size;
+			size_type		_allocated_size;
+			allocator_type	_allocator;
 			
 		public:
 			/**
@@ -485,7 +494,7 @@ namespace ft
 	 * @return the comparaison == between lhs and rhs
 	 */
 	template <class T, class Allocator, class T_it>
-	bool	operator==(typename vector<T, Allocator>::iterator<T_it> lht, typename vector<T, Allocator>::iterator<T_it> rht);
+	bool	operator==(typename vector<T, Allocator>::template _iterator<T_it> lht, typename vector<T, Allocator>::template _iterator<T_it> rht);
 
 	/**
 	 * @tparam	T			The type of variable contained by the vector
@@ -495,7 +504,7 @@ namespace ft
 	 * @return the comparaison == between lhs and rhs
 	 */
 	template <class T, class Allocator, class T_it>
-	bool	operator!=(typename vector<T, Allocator>::iterator<T_it> lht, typename vector<T, Allocator>::iterator<T_it> rht);
+	bool	operator!=(typename vector<T, Allocator>::template _iterator<T_it> lht, typename vector<T, Allocator>::template _iterator<T_it> rht);
 
 	/**
 	 * @tparam	T			The type of variable contained by the vector
@@ -504,7 +513,7 @@ namespace ft
 	 * @return	A reference to the modified iterator
 	 */
 	template <class T, class Allocator, class T_it>
-	typename vector<T, Allocator>::iterator<T_it>	&operator+(typename vector<T, Allocator>::iterator<T_it>::difference_type n, typename vector<T, Allocator>::iterator<T_it> &it);
+	typename vector<T, Allocator>::template _iterator<T_it>	&operator+(typename vector<T, Allocator>::template _iterator<T_it>::difference_type n, typename vector<T, Allocator>::template _iterator<T_it> &it);
 };
 
 #include "vector.tpp"
