@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/06 13:58:01 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/06 14:59:15 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 // #include "../../helpers/random_access_iterator/random_access_iterator.tpp" //g envie dcrever rien qu'davoir a ecrire ca
 #include "../../helpers/reverse_iterator/reverse_iterator.hpp"
 #include "../../helpers/iterator_traits/iterator_traits.hpp"
+#include "../../helpers/enable_if/enable_if.hpp"
 
 namespace ft
 {
@@ -168,7 +169,7 @@ namespace ft
 			 *	@param	last	the end of the range to copy (will not be copied)
 			 *	@param	alloc	Allocator object, keeped and used by the vector
 			 */
-			template <class InputIterator>
+			template <class InputIterator, ft::enable_if<typeid(InputIterator::value_type) == typeid(value_type), bool> >
 			vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type());
 
 			/**

@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/06 13:57:46 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/06 14:54:03 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ namespace ft
     {
         this->_size = n;
         this->_allocated_size = n;
+        this->_allocator = alloc;
         this->_data = this->_allocator.allocate(n);
         for (size_type i = 0; i < n; i++)
             this->_allocator.construct(this->_data + i, val);
     }
 
 	template<class T, class Alloc>
-    template<class InputIterator>
+    template<class InputIterator, ft::enable_if<typeid(InputIterator::value_type) == typeid(typename vector<T, Alloc>::vector::value_type), bool> >
     vector<T, Alloc>::vector(InputIterator first, InputIterator last, const typename vector<T,Alloc>::allocator_type &alloc)
 	{
         this->_size = 0;
@@ -48,7 +49,7 @@ namespace ft
     template<class T, class Alloc>
     vector<T,Alloc>::vector(const vector<T,Alloc> &x)
     {
-        this = x;
+        *this = x;
     }
 
     template<class T, class Alloc>
@@ -71,6 +72,7 @@ namespace ft
             
             //copy new data
             this->_size = x._size;
+            this->_allocator = x._allocator; //doubt ?
             this->_allocated_size = x._allocated_size;
             this->_data = this->_allocator.allocate(x._allocated_size);
             for (size_type i = 0; i < x._size; i++)
