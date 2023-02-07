@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/07 18:04:09 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/07 18:06:04 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ namespace ft
     }
 
     template<class T, class Alloc>
-    vector<T,Alloc>::vector(typename vector<T,Alloc>::size_type n, const typename vector<T,Alloc>::value_type &val, const typename vector<T,Alloc>::allocator_type &alloc)
+    vector<T,Alloc>::vector(
+        typename vector<T,Alloc>::size_type n,
+        const typename vector<T,Alloc>::value_type &val,
+        const typename vector<T,Alloc>::allocator_type &alloc
+        )
     {
         this->_size = n;
         this->_allocated_size = n;

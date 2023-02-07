@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bdehais <bdehais@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/01/31 13:43:00 by bdehais          ###   ########.fr       */
+/*   Updated: 2023/02/07 16:43:25 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include <memory>
 
 #include "../../helpers/reverse_iterator/reverse_iterator.tpp"
-#include "../../helpers/bidirectionnal_iterator/bidirectionnal_iterator.tpp"
 
 namespace ft
 {
