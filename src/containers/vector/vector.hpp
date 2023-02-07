@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/07 13:54:06 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/07 18:04:09 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "../../helpers/iterator_traits/iterator_traits.hpp"
 #include "../../helpers/enable_if/enable_if.hpp"
 #include "../../helpers/iterator/iterator.hpp"
-
+#include "../../helpers/is_integral/is_integral.hpp"
 namespace ft
 {
 	/**
@@ -35,10 +35,10 @@ namespace ft
 			 * @tparam	T_it	The type of variable pointed by the iterator
 			 */
 			template<class T_it = T>
-			class _iterator : public ft::iterator<T_it>
+			class _iterator
 			{
 				public:
-					typedef	std::random_access_iterator_tag	category;
+					typedef	std::random_access_iterator_tag	iterator_category;
 					typedef	T_it							value_type;
 					typedef	long long int					difference_type;
 					typedef	T_it*							pointer;
@@ -89,6 +89,9 @@ namespace ft
 					 * @return	A reference to the object pointed by ptr
 					 */
 					value_type	&operator*(void);
+
+					//TODO: operator-> 
+					//TODO: trier ce putain de header et le tpp :)
 
 					/**
 					 * @brief	Pre-increment operator: make ptr points to the next (virtual) object in the vector
@@ -182,7 +185,7 @@ namespace ft
 				InputIterator first,
 				InputIterator last,
 				const allocator_type &alloc = allocator_type(),
-				typename ft::enable_if<InputIterator::is_iterator, bool>::type* = 0
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type* = 0
 				);
 
 			/**

@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/07 13:54:06 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/07 18:04:09 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ namespace ft
         InputIterator first,
         InputIterator last,
         const typename vector<T,Alloc>::allocator_type &alloc,
-        typename ft::enable_if<InputIterator::is_iterator, bool>::type*)
+        typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type*
+        )
 	{
         this->_size = 0;
         this->_allocated_size = 0;
@@ -182,22 +183,7 @@ namespace ft
 
     template<class T, class Alloc>
     void    vector<T,Alloc>::reserve(typename vector<T,Alloc>::size_type n)
-    {
-        // if (n > this->_allocated_size)
-        // {
-        //     pointer tmp = this->_allocator.allocate(n);
-        //     for (size_type i = 0; i < this->_size; i++)
-        //     {
-        //         this->_allocator.construct(tmp + i, this->_data[i]);
-        //         this->_allocator.destroy(this->_data + i);
-        //     }
-        //     this->_allocator.deallocate(this->_data, this->_allocated_size);
-        //     this->_data = tmp;
-        //     this->_allocated_size = n;
-        // }
-
-
-        
+    {        
         if (_allocated_size >= n || n > max_size())
             return ;
         size_type   to_alloc = 2;
