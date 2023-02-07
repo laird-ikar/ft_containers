@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 13:30:43 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/06 17:12:52 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/07 10:33:01 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ namespace ft
 
 	template<class T, class Alloc>
 	template<class T_it>
-	typename vector<T, Alloc>::template _iterator<T_it> &vector<T, Alloc>::template _iterator<T_it>::operator++(void)
+	typename vector<T, Alloc>::template _iterator<T_it>
+		&vector<T, Alloc>::template _iterator<T_it>::operator++(void)
 	{
 		this->ptr++;
 		return *this;
@@ -71,7 +72,9 @@ namespace ft
 
 	template<class T, class Alloc>
 	template<class T_it>
-	bool	vector<T, Alloc>::template _iterator<T_it>::equals(const typename vector<T, Alloc>::template _iterator<T_it> &rht)
+	bool	vector<T, Alloc>::template _iterator<T_it>::equals(
+		const typename vector<T, Alloc>::template _iterator<T_it> &rht
+		) const
 	{
 		return this->ptr == rht.ptr;
 	}
@@ -133,23 +136,20 @@ namespace ft
 		//NOTE: if we implement non-contigus dark magic, we should do stuff with that here
 	}
 
-	template <class T, class Allocator, class T_it>
-	bool	operator==(typename vector<T, Allocator>::template _iterator<T_it> lht, typename vector<T, Allocator>::template _iterator<T_it> rht)
+	template <class It>
+	bool	operator==(const It &lht, const It &rht)
 	{
 		return lht.equals(rht);
 	}
 
-	template <class T, class Allocator, class T_it>
-	bool	operator!=(typename vector<T, Allocator>::template _iterator<T_it> lht, typename vector<T, Allocator>::template _iterator<T_it> rht)
+	template <class It>
+	bool	operator!=(const It &lht, const It &rht)
 	{
 		return !(lht == rht);
 	}
 
-	template <class T, class Allocator, class T_it>
-	typename vector<T, Allocator>::template _iterator<T_it>	&operator+(
-		typename vector<T, Allocator>::template _iterator<T_it>::difference_type n,
-		typename vector<T, Allocator>::template _iterator<T_it> &it
-		)
+	template <class It>
+	It	&operator+(typename It::difference_type n, const It &it)
 	{
 		return (it + n);
 	}
