@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/07 11:32:57 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/07 13:54:06 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ namespace ft
         InputIterator first,
         InputIterator last,
         const typename vector<T,Alloc>::allocator_type &alloc,
-        typename ft::enable_if<false, bool>::type*)
+        typename ft::enable_if<InputIterator::is_iterator, bool>::type*)
 	{
         this->_size = 0;
         this->_allocated_size = 0;
@@ -93,25 +93,25 @@ namespace ft
     template<class T, class Alloc>
     typename vector<T,Alloc>::iterator vector<T,Alloc>::begin()
     {
-        return (this->_data);
+        return iterator(this->_data);
     }
 
     template<class T, class Alloc>
     typename vector<T,Alloc>::const_iterator vector<T,Alloc>::begin() const
     {
-        return (this->_data);
+        return const_iterator(this->_data);
     }
 
     template<class T, class Alloc>
     typename vector<T,Alloc>::iterator vector<T,Alloc>::end()
     {
-        return (this->_data + this->_size);
+        return iterator(this->_data + this->_size);
     }
 
     template<class T, class Alloc>
     typename vector<T,Alloc>::const_iterator vector<T,Alloc>::end() const
     {
-        return (this->_data + this->_size);
+        return const_iterator(this->_data + this->_size);
     }
 
     template<class T, class Alloc>
@@ -183,8 +183,38 @@ namespace ft
     template<class T, class Alloc>
     void    vector<T,Alloc>::reserve(typename vector<T,Alloc>::size_type n)
     {
-        //TODO: la fonction4
-        (void)n;
+        // if (n > this->_allocated_size)
+        // {
+        //     pointer tmp = this->_allocator.allocate(n);
+        //     for (size_type i = 0; i < this->_size; i++)
+        //     {
+        //         this->_allocator.construct(tmp + i, this->_data[i]);
+        //         this->_allocator.destroy(this->_data + i);
+        //     }
+        //     this->_allocator.deallocate(this->_data, this->_allocated_size);
+        //     this->_data = tmp;
+        //     this->_allocated_size = n;
+        // }
+
+
+        
+        if (_allocated_size >= n || n > max_size())
+            return ;
+        size_type   to_alloc = 2;
+        while (to_alloc < n)
+        {
+            to_alloc *= 2;
+        }
+        value_type *tmp = _allocator.allocate(to_alloc);
+        for (size_type i = 0 ; i < _size ; i++)
+        {
+            _allocator.construct(tmp + i, _data[i]);
+            _allocator.destroy(_data + i);
+        }
+        if (_allocated_size)
+            _allocator.deallocate(_data, _allocated_size);
+        _data = tmp;
+        _allocated_size = to_alloc;
     }
 
     template<class T, class Alloc>

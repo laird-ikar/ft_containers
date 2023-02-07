@@ -6,22 +6,20 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/07 11:34:31 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/07 13:54:06 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <memory>
-
-#ifndef	VECTOR_HPP
-#define VECTOR_HPP
+#pragma once
 
 #include <type_traits>
+#include <memory>
 
 // #include "../../helpers/random_access_iterator/random_access_iterator.tpp" //g envie dcrever rien qu'davoir a ecrire ca
 #include "../../helpers/reverse_iterator/reverse_iterator.hpp"
 #include "../../helpers/iterator_traits/iterator_traits.hpp"
 #include "../../helpers/enable_if/enable_if.hpp"
-// #include "../../helpers/is_iterator/is_iterator.hpp"
+#include "../../helpers/iterator/iterator.hpp"
 
 namespace ft
 {
@@ -37,7 +35,7 @@ namespace ft
 			 * @tparam	T_it	The type of variable pointed by the iterator
 			 */
 			template<class T_it = T>
-			class _iterator
+			class _iterator : public ft::iterator<T_it>
 			{
 				public:
 					typedef	std::random_access_iterator_tag	category;
@@ -184,7 +182,7 @@ namespace ft
 				InputIterator first,
 				InputIterator last,
 				const allocator_type &alloc = allocator_type(),
-				typename ft::enable_if<false, bool>::type* = 0
+				typename ft::enable_if<InputIterator::is_iterator, bool>::type* = 0
 				);
 
 			/**
@@ -534,5 +532,3 @@ namespace ft
 
 #include "vector.tpp"
 #include "vector_iterator.tpp"
-
-#endif
