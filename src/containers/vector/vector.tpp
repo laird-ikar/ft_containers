@@ -6,12 +6,9 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/07 18:06:04 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/09 13:42:52 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#ifndef VECTOR_TPP
-#define VECTOR_TPP
 
 #include <iostream>
 
@@ -375,6 +372,32 @@ namespace ft
     {
         x.swap(y);
     }
-}
 
-#endif
+   
+	template<class T, class Alloc>
+	template<class T_it>
+	vector<T, Alloc>::template _iterator<T_it>::_iterator(
+		void
+		) : ft::iterator<T_it>::iterator()
+	{}
+
+	template<class T, class Alloc>
+	template<class T_it>
+	vector<T, Alloc>::template _iterator<T_it>::_iterator(
+		const _iterator &rht
+		) : ft::iterator<T_it>::iterator(rht)
+	{}
+
+	template<class T, class Alloc>
+	template<class T_it>
+	vector<T, Alloc>::template _iterator<T_it>::_iterator(
+		typename ft::iterator<T_it>::pointer ptr
+		) : ft::iterator<T_it>::iterator(ptr)
+	{}
+
+	template<class T, class Alloc>
+	template<class T_it>
+	vector<T, Alloc>::template _iterator<T_it>::~_iterator(
+		void)
+	{}
+}
