@@ -6,15 +6,18 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:45:31 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/09 13:50:22 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/10 14:19:20 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
-#include "../../inc/ft_containers.hpp"
-// namespace ft = std;
-// #include <vector>
+#if 0
+	#include "../../inc/ft_containers.hpp"
+#else
+	#include <vector>
+	namespace ft = std;
+#endif
 
 typedef struct s_test 
 {
@@ -95,7 +98,7 @@ int main()
 		std::cout << "dereference (lvalue)" << std::endl;
 		(void) *it;
 		(void) it->d;
-		std::cout << "dereference (rvalue) (commenting cause it doesnt compile, obv)" << std::endl;
+		std::cout << "dereference (rvalue) (should not compile since it is const)" << std::endl;
 		// *it = t_test();
 		// *it++ = t_test();
 		std::cout << "multipass" << std::endl;
@@ -119,6 +122,92 @@ int main()
 		it -= 5;
 		std::cout << "crochet crochet" << std::endl;
 		(void) it[5];
+	}
+	std::cout << std::endl;
+
+	std::cout << "TESTING VECTORS" << std::endl;
+	{
+		ft::vector<int> v;
+
+		std::cout << "filling with ints using pushback():" << std::endl;
+		for (int i = 0 ; i <= 42 ; i++)
+		{
+			v.push_back(i);
+		}
+
+		std::cout << "priting via begin() and end():" << std::endl;
+		for (ft::vector<int>::iterator it = v.begin() ; it != v.end() ; it++)
+		{
+			std::cout << *it << "; ";
+		}
+		std::cout << std::endl;
+
+		std::cout << "priting via rbegin() and rend():" << std::endl;
+		for (ft::vector<int>::reverse_iterator it = v.rbegin() ; it != v.rend() ; it++)
+		{
+			std::cout << *it << "; ";
+		}
+		std::cout << std::endl;
+		
+		std::cout << "testing element access" << std::endl;
+		std::cout << "v[21]:" << v[21] << "; v.at(21):" << v.at(21) 
+			<< "; v.front():" << v.front() << "; v.back():" << v.back()
+			<< std::endl;
+		
+		std::cout << "testing capacity reading" << std::endl;
+		std::cout << "v.empty():" << v.empty() << "; v.size():" << v.size()
+			<< "; v.max_size():" << v.max_size() << "; v.capacity():" << v.capacity()
+			<< std::endl;
+		
+		std::cout << "reserving 100" << std::endl;
+		v.reserve(100);
+		std::cout << "testing capacity reading" << std::endl;
+		std::cout << "v.empty():" << v.empty() << "; v.size():" << v.size()
+			<< "; v.max_size():" << v.max_size() << "; v.capacity():" << v.capacity()
+			<< std::endl;
+		
+		std::cout << "clearing" << std::endl;
+		v.clear();
+		std::cout << "testing capacity reading" << std::endl;
+		std::cout << "v.empty():" << v.empty() << "; v.size():" << v.size()
+			<< "; v.max_size():" << v.max_size() << "; v.capacity():" << v.capacity()
+			<< std::endl;
+		std::cout << "resize to 21" << std::endl;
+		v.resize(21);
+		std::cout << "priting via begin() and end():" << std::endl;
+		for (ft::vector<int>::iterator it = v.begin() ; it != v.end() ; it++)
+		{
+			std::cout << *it << "; ";
+		}
+		std::cout << std::endl;
+		std::cout << "testing capacity reading" << std::endl;
+		std::cout << "v.empty():" << v.empty() << "; v.size():" << v.size()
+			<< "; v.max_size():" << v.max_size() << "; v.capacity():" << v.capacity()
+			<< std::endl;
+		std::cout << "resize to 42 with value 42" << std::endl;
+		v.resize(42, 42);
+		std::cout << "priting via begin() and end():" << std::endl;
+		for (ft::vector<int>::iterator it = v.begin() ; it != v.end() ; it++)
+		{
+			std::cout << *it << "; ";
+		}
+		std::cout << std::endl;
+		std::cout << "testing capacity reading" << std::endl;
+		std::cout << "v.empty():" << v.empty() << "; v.size():" << v.size()
+			<< "; v.max_size():" << v.max_size() << "; v.capacity():" << v.capacity()
+			<< std::endl;
+		std::cout << "erasing elements 12 through 19" << std::endl;
+		v.erase(v.begin() + 12, v.begin() + 19);
+		std::cout << "priting via begin() and end():" << std::endl;
+		for (ft::vector<int>::iterator it = v.begin() ; it != v.end() ; it++)
+		{
+			std::cout << *it << "; ";
+		}
+		std::cout << std::endl;
+		std::cout << "testing capacity reading" << std::endl;
+		std::cout << "v.empty():" << v.empty() << "; v.size():" << v.size()
+			<< "; v.max_size():" << v.max_size() << "; v.capacity():" << v.capacity()
+			<< std::endl;
 	}
 	std::cout << std::endl;
     return 0;

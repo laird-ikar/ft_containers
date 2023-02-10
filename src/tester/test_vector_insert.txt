@@ -1,0 +1,1 @@
+std_insert;ft_insert;std_insert2;ft_insert2;std_insert3;ft_insert3

@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/09 13:42:52 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/10 14:19:20 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include "../../helpers/reverse_iterator/reverse_iterator.hpp"
 #include "../../helpers/iterator_traits/iterator_traits.hpp"
 #include "../../helpers/enable_if/enable_if.hpp"
-#include "../../helpers/iterator/iterator.hpp"
 #include "../../helpers/is_integral/is_integral.hpp"
 namespace ft
 {
@@ -34,30 +33,208 @@ namespace ft
 			 * @tparam	T_it	The type of variable pointed by the iterator
 			 */
 			template<class T_it = T>
-			class _iterator : public ft::iterator<T_it>
+			class _iterator
 			{
 				public:
-					/**
-					 * @brief	Constructs an iterator pointing on nullptr
-					 */
-					_iterator(void);
+				typedef	std::random_access_iterator_tag	iterator_category;
+				typedef	T_it							value_type;
+				typedef	long long int					difference_type;
+				typedef	T_it*							pointer;
+				typedef	T_it&							reference;
+			
+			private:
+				pointer ptr;
 
-					/**
-					 * @brief	Constructs an iterator pointing on the same term as rht
-					 * @param	rht	The iterator we are copying
-					 */
-					_iterator(const _iterator &rht);
+			public:
 
-					/**
-					 * @brief	Create an iterator pointing on ptr
-					 * @param	ptr	The pointer the iterator will point to
-					 */
-					_iterator(typename iterator<T_it>::pointer ptr);
+			/******************** CONSTRUCTORS & DESTRUCTOR *******************/
 
-					/**
-					 * @brief	Destructs the iterator
-					 */
-					virtual ~_iterator(void);
+				/**
+				 * @brief	Constructs an iterator pointing on nullptr
+				 */
+				_iterator(void);
+
+				/**
+				 * @brief	Constructs an iterator pointing on the same term as rht
+				 * @param	rht	The iterator we are copying
+				 */
+				_iterator(const _iterator &rht);
+
+				/**
+				 * @brief	Create an iterator pointing on ptr
+				 * @param	ptr	The pointer the iterator will point to
+				 */
+				_iterator(pointer ptr);
+
+				/**
+				 * @brief	Destructs the iterator
+				 */
+				virtual ~_iterator(void);
+
+			/********************** ASSIGNATION OPERATORS *********************/
+
+				/**
+				 * @brief	Changes the address pointed by this so that it points the same as rht
+				 * @param	rht	The iterator we are copying
+				 * @return	*this
+				 */ 
+				_iterator	&operator=(const _iterator &rht);
+
+			/*********************** ARITHMETIC OPERATORS *********************/
+
+				/**
+				 * @brief	Pre-increment operator: make ptr points to the next (virtual) object in the vector
+				 * @return	A reference to this, modified
+				 */
+				_iterator	&operator++(void);
+
+				/**
+				 * @brief	Pre-decrement operator: make ptr points to the previous (virtual) object in the vector
+				 * @return	A reference to this, modified
+				 */
+				_iterator	&operator--(void);
+
+				/**
+				 * @brief	Post-increment operator: make ptr points to the next (virtual) object in the vector
+				 * @return	A copy of this before it was modified
+				 */
+				_iterator	operator++(int);
+
+				/**
+				 * @brief	Post-decrement operator: make ptr points to the previous (virtual) object in the vector
+				 * @return	A copy of this before it was modified
+				 */
+				_iterator	operator--(int);
+
+				/**
+				 * @brief	Addition operator (it + n): make ptr points to the nth next (virtual) object in the vector
+				 * @param	n	The value to add to the pointer
+				 * @return	A reference to this modified
+				 */
+				_iterator	operator+(difference_type n) const;
+
+				/**
+				 * @brief	Substraction operator (it - n): make ptr points to the nth previous (virtual) object in the vector
+				 * @param	n	The value to substract to the pointer
+				 * @return	A reference to this modified
+				 */
+				_iterator	operator-(difference_type n) const;
+
+				/**
+				 * @brief	Substraction operator (this - rhs): make ptr points to the nth previous (virtual) object in the vector
+				 * @param	rhs	The iterator to substract to this
+				 * @return	A reference to this modified
+				 */
+				difference_type	operator-(const _iterator &rhs) const;
+
+				/**
+				 * @brief	Addition assignment operator (it += n): make ptr points to the nth next (virtual) object in the vector
+				 * @param	n	The value to add to the pointer
+				 * @return	A reference to this modified
+				 */
+				_iterator	&operator+=(difference_type n);
+
+				/**
+				 * @brief	Substraction assignment operator (it -= n): make ptr points to the nth previous (virtual) object in the vector
+				 * @param	n	The value to substract to the pointer
+				 * @return	A reference to this modified
+				 */
+				_iterator	&operator-=(difference_type n);
+
+				/******************** DEREFERENCE OPERATORS *******************/
+
+				/**
+				 * @brief	Dereferencing operator
+				 * @return	A reference to the object pointed by ptr
+				 */
+				reference	operator*(void) const;
+
+				/**
+				 * @brief	Arrow operator
+				 * @return	A pointer to the object pointed by ptr
+				 */
+				pointer	operator->(void) const;
+
+				/**
+				 * @brief	Subscript operator
+				 * @param	n	The index of the object we want to access
+				 * @return	A reference to the object at index n
+				 */
+				reference	operator[](difference_type n) const;
+
+			/***************** EXTERNAL RELATIONNAL OPERATORS *****************/
+
+				/**
+				 * @param lhs	the left term of the comparaison
+				 * @param rhs	the right term of the comparaison
+				 * @return the comparaison == between lhs and rhs
+				 */
+				friend bool	operator==(const _iterator &lht, const _iterator &rht)
+				{
+					return lht.ptr == rht.ptr;
+				}
+
+				/**
+				 * @param lhs	the left term of the comparaison
+				 * @param rhs	the right term of the comparaison
+				 * @return the comparaison != between lhs and rhs
+				 */
+				friend bool	operator!=(const _iterator &lht, const _iterator &rht)
+				{
+					return !(lht == rht);
+				}
+
+				/**
+				* @param lhs	the left term of the comparaison
+				* @param rhs	the right term of the comparaison
+				* @return the comparaison < between lhs and rhs
+				*/
+				friend bool	operator<(const _iterator &lht, const _iterator &rht)
+				{
+					return lht.ptr < rht.ptr;
+				}
+
+				/**
+				* @param lhs	the left term of the comparaison
+				* @param rhs	the right term of the comparaison
+				* @return the comparaison <= between lhs and rhs
+				*/
+				friend bool	operator<=(const _iterator &lht, const _iterator &rht)
+				{
+					return lht.ptr <= rht.ptr;
+				}
+
+				/**
+				* @param lhs	the left term of the comparaison
+				* @param rhs	the right term of the comparaison
+				* @return the comparaison > between lhs and rhs
+				*/
+				friend bool	operator>(const _iterator &lht, const _iterator &rht)
+				{
+					return lht.ptr > rht.ptr;
+				}
+
+				/**
+				* @param lhs	the left term of the comparaison
+				* @param rhs	the right term of the comparaison
+				* @return the comparaison >= between lhs and rhs
+				*/
+				friend bool	operator>=(const _iterator &lht, const _iterator &rht)
+				{
+					return lht.ptr >= rht.ptr;
+				}
+
+
+			/*************** EXTERNAL ARITHMETIC OPERATORS ********************/
+				
+				/**
+				 * @brief	Addition operator (n + it): make ptr points to the nth next (virtual) object in the vector
+				 * @return	A reference to the modified iterator
+				 */
+				friend _iterator operator+(difference_type n, const _iterator<T_it> &it)
+				{
+					return (it + n);
+				}
 			};
 
 		public:
@@ -68,7 +245,7 @@ namespace ft
 			typedef	typename allocator_type::pointer						pointer;
 			typedef	typename allocator_type::const_pointer					const_pointer;
 			typedef	_iterator<value_type>									iterator;
-			typedef	_iterator<const value_type>									const_iterator;
+			typedef	_iterator<const value_type>								const_iterator;
 			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef	typename ft::iterator_traits<iterator>::difference_type	difference_type;
@@ -312,20 +489,20 @@ namespace ft
 			 *	@param last		iterator specifying the last element in the range to be inserted.
 			 */
 			template<class InputIterator>
-			void				insert(iterator position, iterator first, iterator last);
+			void				insert(iterator position, InputIterator first, InputIterator last);
 			
 			/**
 			 *	@brief Removes from the vector either a single element
 			 *	@param position	iterator pointing to the element to be removed from the vector.
 			 */
-			void				erase(iterator position);
+			iterator			erase(iterator position);
 			
 			/**
 			 *	@brief Removes a range of elements ([first,last)).
 			 *	@param first	iterator specifying the first element to be removed from the vector.
 			 *	@param last		iterator specifying the last element to be removed from the vector.
 			 */
-			void				erase(iterator first, iterator last);
+			iterator			erase(iterator first, iterator last);
 			
 			/**
 			 *	@brief Exchanges the content of the container by the content of x, which is another vector object of the same type (sizes may differ)
@@ -422,4 +599,5 @@ namespace ft
 	void swap (vector<T,Allocator>& x, vector<T,Allocator>& y);
 };
 
+#include "vector_iterator.tpp"
 #include "vector.tpp"

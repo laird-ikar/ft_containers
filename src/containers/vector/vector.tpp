@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/09 13:42:52 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/10 14:19:20 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,6 +298,90 @@ namespace ft
         this->_size--;
     }
 
+    template<class T, class Alloc>
+    typename vector<T,Alloc>::iterator vector<T,Alloc>::insert(
+        typename vector<T,Alloc>::iterator position,
+        const typename vector<T,Alloc>::value_type &val
+        )
+    {
+        this->reserve(this->_size + 1);
+        for (iterator it = this->end(); it != position; it--)
+            *it = *(it - 1);
+        *position = val;
+        this->_size++;
+        return (position);
+    }
+
+    template<class T, class Alloc>
+    void    vector<T,Alloc>::insert(
+        typename vector<T,Alloc>::iterator position,
+        typename vector<T,Alloc>::size_type n,
+        const typename vector<T,Alloc>::value_type &val
+        )
+    {
+        this->reserve(this->_size + n);
+        for (iterator it = this->end(); it != position; it--)
+            *it = *(it - n);
+        for (size_type i = 0; i < n; i++)
+            *(position + i) = val;
+        this->_size += n;
+    }
+    
+    template<class T, class Alloc>
+    template<class InputIterator>
+    void    vector<T,Alloc>::insert(
+        typename vector<T,Alloc>::iterator position,
+        InputIterator first,
+        InputIterator last
+        )
+    {
+        size_type n = 0;
+        for (InputIterator it = first; it != last; it++)
+            n++;
+        this->reserve(this->_size + n);
+        for (iterator it = this->end(); it != position; it--)
+            *it = *(it - n);
+        for (size_type i = 0; i < n; i++)
+            *(position + i) = *first++;
+        this->_size += n;
+    }
+
+    template<class T, class Alloc>
+    typename vector<T,Alloc>::iterator vector<T,Alloc>::erase(
+        typename vector<T,Alloc>::iterator position
+        )
+    {
+        for (iterator it = position; it != this->end(); it++)
+            *it = *(it + 1);
+        this->_allocator.destroy(this->_data + this->_size - 1);
+        this->_size--;
+        return (position);
+    }
+
+    template<class T, class Alloc>
+    typename vector<T,Alloc>::iterator vector<T,Alloc>::erase(
+        typename vector<T,Alloc>::iterator first,
+        typename vector<T,Alloc>::iterator last
+        )
+    {
+        size_type n = 0;
+        for (iterator it = first; it != last; it++)
+            n++;
+        for (iterator it = first; it != this->end(); it++)
+            *it = *(it + n);
+        for (size_type i = 0; i < n; i++)
+            this->_allocator.destroy(this->_data + this->_size - 1 - i);
+        this->_size -= n;
+        return (first);
+    }
+
+    template<class T, class Alloc>
+    void    vector<T,Alloc>::swap(vector<T,Alloc> &x)
+    {
+        vector<T,Alloc> tmp = *this;
+        *this = x;
+        x = tmp;
+    }
 
     template<class T, class Alloc>
     void    vector<T,Alloc>::clear(void)
@@ -372,32 +456,4 @@ namespace ft
     {
         x.swap(y);
     }
-
-   
-	template<class T, class Alloc>
-	template<class T_it>
-	vector<T, Alloc>::template _iterator<T_it>::_iterator(
-		void
-		) : ft::iterator<T_it>::iterator()
-	{}
-
-	template<class T, class Alloc>
-	template<class T_it>
-	vector<T, Alloc>::template _iterator<T_it>::_iterator(
-		const _iterator &rht
-		) : ft::iterator<T_it>::iterator(rht)
-	{}
-
-	template<class T, class Alloc>
-	template<class T_it>
-	vector<T, Alloc>::template _iterator<T_it>::_iterator(
-		typename ft::iterator<T_it>::pointer ptr
-		) : ft::iterator<T_it>::iterator(ptr)
-	{}
-
-	template<class T, class Alloc>
-	template<class T_it>
-	vector<T, Alloc>::template _iterator<T_it>::~_iterator(
-		void)
-	{}
 }
