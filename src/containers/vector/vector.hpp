@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/10 16:12:27 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/13 15:25:16 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <type_traits>
 #include <memory>
+#include <cstring>
 
 #include "../../helpers/reverse_iterator/reverse_iterator.hpp"
 #include "../../helpers/iterator_traits/iterator_traits.hpp"
@@ -489,7 +490,12 @@ namespace ft
 			 *	@param last		iterator specifying the last element in the range to be inserted.
 			 */
 			template<class InputIterator>
-			void				insert(iterator position, InputIterator first, InputIterator last);
+			void	insert(
+				iterator position,
+				InputIterator first,
+				InputIterator last,
+				typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type* = 0
+			);
 			
 			/**
 			 *	@brief Removes from the vector either a single element

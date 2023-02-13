@@ -12,6 +12,7 @@
 		"initializer_list": "cpp",
 		"memory": "cpp",
 		"iterator": "cpp",
-		"*.tpp": "cpp"
+		"*.tpp": "cpp",
+		"iosfwd": "cpp"
 	}
 }

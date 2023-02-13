@@ -6,7 +6,7 @@
 #    By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:58:54 by bguyot            #+#    #+#              #
-#    Updated: 2023/02/13 12:48:39 by bguyot           ###   ########.fr        #
+#    Updated: 2023/02/13 18:17:16 by bguyot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,26 +22,21 @@ SRCS			=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_FIL)))
 OBJS			=	$(SRCS:.cpp=.o)
 
 CC				=	@c++
-CANDCPPFLAGS	=	-std=c++98 -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS			=	-std=c++98 -Wall -Wextra -Werror -fsanitize=address
 
 all: $(NAME)
 	@printf "\t\e[96mALL\t\t[ ✓ ]\n\e[39m"
 
 $(NAME): ft_tester std_tester
 
-ft_tester: $(OBJS)
-	@$(CC) $(CANDCPPFLAGS) -D FT -o ft_tester $(OBJS)
+ft_tester:
+	$(CC) $(CFLAGS) -D FT -o ft_tester src/tester/tester.cpp
 
-std_tester: $(OBJS)
-	@$(CC) $(CANDCPPFLAGS) -o std_tester $(OBJS)
+std_tester:
+	$(CC) $(CFLAGS) -o std_tester src/tester/tester.cpp
 
 benchmark:
 	make -C src/tester
-
-%.o: %.cpp %.hpp %.tpp
-	@printf "\e[36m\033[2K\r\t\t"$@"\e[39m"
-	@$(CC) $(CANDCPPFLAGS) -c -o $@ $<
-	@printf "\e[36m\033[F\033[2K\r\tCOMPILATION\t[ ✓ ]\n\e[39m"
 
 clean:
 	@printf "\t\e[31mCLEAN\t\t[ ✓ ]\n\e[39m"
@@ -49,6 +44,7 @@ clean:
 
 fclean: clean
 	@printf "\t\e[35mFCLEAN\t\t[ ✓ ]\n\e[39m"
+	@rm -f ft_tester std_tester
 
 re: fclean all
 	@printf "\t\e[96mRE\t\t[ ✓ ]\n\e[39m"

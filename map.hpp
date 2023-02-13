@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_map.hpp                                         :+:      :+:    :+:   */
+/*   map.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:48:43 by bguyot            #+#    #+#             */
-/*   Updated: 2023/01/30 14:46:14 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/13 15:26:25 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MAP_HPP
 #define FT_MAP_HPP
 
-#include "../src/containers/map/map.tpp"
+#include "src/containers/map/map.tpp"
 
 #endif

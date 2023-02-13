@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/10 16:23:12 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/13 18:17:16 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,8 +279,7 @@ namespace ft
         size_type n = last - first;
         if (n > this->_allocated_size)
             this->reserve(n);
-        for (size_type i = n - 1; i; i--)
-            this->_allocator.construct(this->_data + i, first[i]);
+        std::memmove(this->_data, &(*first), n * sizeof(value_type));
         this->_size = n;
     }
 
@@ -306,12 +305,16 @@ namespace ft
         const typename vector<T,Alloc>::value_type &val
         )
     {
+        size_type pos = position - this->begin();
         this->reserve(this->_size + 1);
-        for (iterator it = this->end(); it != position; it--)
-            *it = *(it - 1);
-        *position = val;
+        std::memmove(
+                &(*((begin() + pos) + 1)),
+                &(*(begin() + pos)),
+                (this->end() - (begin() + pos)) * sizeof(value_type)
+            );
+        *(begin() + pos) = val;
         this->_size++;
-        return (position);
+        return ((begin() + pos));
     }
 
     template<class T, class Alloc>
@@ -321,10 +324,13 @@ namespace ft
         const typename vector<T,Alloc>::value_type &val
         )
     {
+        size_type pos = position - this->begin();
         this->reserve(this->_size + n);
-        for (iterator it = this->end(); it != position; it--)
-            *it = *(it - n);
-        for (size_type i = 0; i < n; i++)
+        std::memmove(
+                &(*((begin() + pos) + n)),
+                &(*(begin() + pos)),
+                (this->end() - (begin() + pos)) * sizeof(value_type)
+            );        for (size_type i = 0; i < n; i++)
             *(position + i) = val;
         this->_size += n;
     }
@@ -334,17 +340,14 @@ namespace ft
     void    vector<T,Alloc>::insert(
         typename vector<T,Alloc>::iterator position,
         InputIterator first,
-        InputIterator last
+        InputIterator last,
+        typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type*
         )
     {
-        size_type n = 0;
-        for (InputIterator it = first; it != last; it++)
-            n++;
+        size_type n = last - first;
         this->reserve(this->_size + n);
-        for (iterator it = this->end(); it != position; it--)
-            *it = *(it - n);
-        for (size_type i = 0; i < n; i++)
-            *(position + i) = *first++;
+        std::memmove(&(*(position + n)), &(*position), (this->end() - position) * sizeof(value_type));
+        std::memmove(&(*position), &(*first), n * sizeof(value_type));
         this->_size += n;
     }
 
@@ -388,8 +391,9 @@ namespace ft
     template<class T, class Alloc>
     void    vector<T,Alloc>::clear(void)
     {
-        for (size_type i = 0; i < this->_size; i++)
-            this->_allocator.destroy(this->_data + i);
+        if (!std::is_trivially_destructible<value_type>::value)
+            for (size_type i = this->_size; i ; i--)
+                this->_allocator.destroy(this->_data + i - 1);
         this->_size = 0;
     }
     
