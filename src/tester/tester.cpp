@@ -6,13 +6,13 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:45:31 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/10 14:19:20 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/13 12:53:05 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 
-#if 0
+#ifdef FT
 	#include "../../inc/ft_containers.hpp"
 #else
 	#include <vector>
@@ -208,6 +208,15 @@ int main()
 		std::cout << "v.empty():" << v.empty() << "; v.size():" << v.size()
 			<< "; v.max_size():" << v.max_size() << "; v.capacity():" << v.capacity()
 			<< std::endl;
+		ft::vector<int> v2(66, 6);
+		std::cout << "assigning v2 to v" << std::endl;
+		v.assign(v2.begin(), v2.end());
+		std::cout << "priting via begin() and end():" << std::endl;
+		for (ft::vector<int>::iterator it = v.begin() ; it != v.end() ; it++)
+		{
+			std::cout << *it << "; ";
+		}
+		std::cout << std::endl;
 	}
 	std::cout << std::endl;
     return 0;

@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/10 14:19:20 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:23:12 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,16 +269,18 @@ namespace ft
 
     template <class T, class Alloc>
     template <class InputIterator>
-    void   vector<T,Alloc>::assign(InputIterator first, InputIterator last)
+    void   vector<T,Alloc>::assign(
+        InputIterator first,
+        InputIterator last,
+        typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type*
+        )
     {
         this->clear();
-        size_type n = 0;
-        for (InputIterator it = first; it != last; it++)
-            n++;
+        size_type n = last - first;
         if (n > this->_allocated_size)
             this->reserve(n);
-        for (size_type i = 0; i < n; i++)
-            this->_allocator.construct(this->_data + i, *first++);
+        for (size_type i = n - 1; i; i--)
+            this->_allocator.construct(this->_data + i, first[i]);
         this->_size = n;
     }
 
@@ -390,6 +392,7 @@ namespace ft
             this->_allocator.destroy(this->_data + i);
         this->_size = 0;
     }
+    
 
     template<class T, class Alloc>
     typename vector<T,Alloc>::allocator_type vector<T,Alloc>::get_allocator() const

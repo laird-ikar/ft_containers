@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/10 14:19:20 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/10 16:12:27 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -454,7 +454,7 @@ namespace ft
 			 *	@param	last	the end of the range to copy (will not be copied)
 			 */
 			template<class InputIt>
-			void				assign(InputIt first, InputIt last);
+			void				assign(InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type* = 0);
 
 			/**
 			 *	@brief Add an element to the end of the vector.
