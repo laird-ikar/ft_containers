@@ -6,7 +6,7 @@
 #    By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/26 12:58:54 by bguyot            #+#    #+#              #
-#    Updated: 2023/02/13 18:17:16 by bguyot           ###   ########.fr        #
+#    Updated: 2023/02/15 17:22:23 by bguyot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS			=	$(addprefix $(SRC_DIR), $(addsuffix .cpp, $(SRC_FIL)))
 OBJS			=	$(SRCS:.cpp=.o)
 
 CC				=	@c++
-CFLAGS			=	-std=c++98 -Wall -Wextra -Werror -fsanitize=address
+CFLAGS			=	-std=c++98 -Wall -Wextra -Werror -fsanitize=address -ferror-limit=4242
 
 all: $(NAME)
 	@printf "\t\e[96mALL\t\t[ ✓ ]\n\e[39m"
@@ -36,7 +36,7 @@ std_tester:
 	$(CC) $(CFLAGS) -o std_tester src/tester/tester.cpp
 
 benchmark:
-	make -C src/tester
+	@make -C src/tester
 
 clean:
 	@printf "\t\e[31mCLEAN\t\t[ ✓ ]\n\e[39m"

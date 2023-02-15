@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/13 15:25:16 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/15 17:45:42 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include "../../helpers/iterator_traits/iterator_traits.hpp"
 #include "../../helpers/enable_if/enable_if.hpp"
 #include "../../helpers/is_integral/is_integral.hpp"
+#include "../../helpers/distance/distance.hpp"
+
 namespace ft
 {
 	/**
@@ -455,8 +457,12 @@ namespace ft
 			 *	@param	last	the end of the range to copy (will not be copied)
 			 */
 			template<class InputIt>
-			void				assign(InputIt first, InputIt last, typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type* = 0);
-
+			void				assign(
+				InputIt first,
+				InputIt last,
+				typename ft::enable_if<!ft::is_integral<InputIt>::value, bool>::type* = 0
+			);
+			
 			/**
 			 *	@brief Add an element to the end of the vector.
 			 *	@param val	value to be copied to the new element.
@@ -528,6 +534,13 @@ namespace ft
 			 *	@return A copy of the allocator object associated with the vector.
 			 */
 			allocator_type		get_allocator(void) const;
+
+		private:
+			template <class InputIterator>
+			void do_assign(InputIterator first, InputIterator last, std::input_iterator_tag);
+
+			template <class InputIterator>
+			void do_assign(InputIterator first, InputIterator last, std::random_access_iterator_tag);
 	};
 
 	/*********************************************************************************/

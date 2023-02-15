@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/13 18:17:16 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/15 16:09:08 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,20 +267,47 @@ namespace ft
         this->_size = n;
     }
 
+
+    template <class T, class Alloc>
+    template <class InputIterator>
+    void   vector<T,Alloc>::do_assign(
+        InputIterator first,
+        InputIterator last,
+        std::input_iterator_tag)
+    {
+        this->clear();
+        size_type n = ft::distance(first, last);
+        if (n > this->_allocated_size)
+            this->reserve(n);
+        size_type i = -1;
+        while(++i < n)
+            this->_allocator.construct(this->_data + i, *first++);
+        this->_size = n;
+    }
+
+    template <class T, class Alloc>
+    template <class InputIterator>
+    void   vector<T,Alloc>::do_assign(
+        InputIterator first,
+        InputIterator last,
+        std::random_access_iterator_tag)
+    {
+        this->clear();
+        size_type n = ft::distance(first, last);
+        if (n > this->_allocated_size)
+            this->reserve(n);
+        std::memmove(this->_data, &(*first), n * sizeof(value_type));
+        this->_size = n;
+    }
+
     template <class T, class Alloc>
     template <class InputIterator>
     void   vector<T,Alloc>::assign(
         InputIterator first,
         InputIterator last,
-        typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type*
-        )
+        typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type*)
     {
-        this->clear();
-        size_type n = last - first;
-        if (n > this->_allocated_size)
-            this->reserve(n);
-        std::memmove(this->_data, &(*first), n * sizeof(value_type));
-        this->_size = n;
+        do_assign(first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
     }
 
     template<class T, class Alloc>
@@ -327,11 +354,12 @@ namespace ft
         size_type pos = position - this->begin();
         this->reserve(this->_size + n);
         std::memmove(
-                &(*((begin() + pos) + n)),
+                &(*(begin() + pos + n)),
                 &(*(begin() + pos)),
-                (this->end() - (begin() + pos)) * sizeof(value_type)
-            );        for (size_type i = 0; i < n; i++)
-            *(position + i) = val;
+                (end() - (begin() + pos)) * sizeof(value_type)
+            );
+        for (size_type i = 0; i < n; i++)
+            *(begin() + pos + i) = val;
         this->_size += n;
     }
     
@@ -344,10 +372,18 @@ namespace ft
         typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type*
         )
     {
-        size_type n = last - first;
+		size_type n = 0;
+		for (InputIterator it = first ; it != last ; it++)
+			n++;
+        size_type pos = position - this->begin();
         this->reserve(this->_size + n);
-        std::memmove(&(*(position + n)), &(*position), (this->end() - position) * sizeof(value_type));
-        std::memmove(&(*position), &(*first), n * sizeof(value_type));
+        std::memmove(
+                &(*(begin() + pos + n)),
+                &(*(begin() + pos)),
+                (end() - (begin() + pos)) * sizeof(value_type)
+            );
+        for (size_type i = 0; i < n; i++)
+            *(begin() + pos + i) = *first++;
         this->_size += n;
     }
 
