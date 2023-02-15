@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/15 17:45:42 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/15 17:54:57 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,14 @@ namespace ft
 				{
 					return (it + n);
 				}
-			};
+
+			/**************************** CASTING OPERATORS *******************/
+			
+			operator _iterator<const T_it> (void) const
+			{
+				return _iterator<const T_it>(ptr);
+			}	
+		};
 
 		public:
 			typedef	T														value_type;

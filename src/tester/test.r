@@ -122,44 +122,44 @@ theme(plot.title = element_text(hjust = 0.5))
 
 ############## vector<>::resize/reserve methods ##############
 
-data_resize_reserve <- read_csv2(
-    "output/test_vector_resize_reserve.txt",
-    col_names = TRUE,
-    n_max = Inf,
-    progress = show_progress(),
-    lazy = TRUE,
-    col_types = cols(),
-    show_col_types = FALSE,
-)
+# data_resize_reserve <- read_csv2(
+#     "output/test_vector_resize_reserve.txt",
+#     col_names = TRUE,
+#     n_max = Inf,
+#     progress = show_progress(),
+#     lazy = TRUE,
+#     col_types = cols(),
+#     show_col_types = FALSE,
+# )
 
-#multing by X to have results in ms instead of s (bc of Y iterations in test)
-data_resize_reserve$ft_resize <- as.numeric(data_resize_reserve$ft_resize) * 2
-data_resize_reserve$std_resize <- as.numeric(data_resize_reserve$std_resize) * 2
-data_resize_reserve$ft_reserve <- as.numeric(data_resize_reserve$ft_reserve) * 2
-data_resize_reserve$std_reserve <- as.numeric(data_resize_reserve$std_reserve) * 2
+# #multing by X to have results in ms instead of s (bc of Y iterations in test)
+# data_resize_reserve$ft_resize <- as.numeric(data_resize_reserve$ft_resize) * 2
+# data_resize_reserve$std_resize <- as.numeric(data_resize_reserve$std_resize) * 2
+# data_resize_reserve$ft_reserve <- as.numeric(data_resize_reserve$ft_reserve) * 2
+# data_resize_reserve$std_reserve <- as.numeric(data_resize_reserve$std_reserve) * 2
 
-#saving the plot in a variable
-resize_reserve_plot <- ggplot(
-    data = data_resize_reserve,
-    aes(x = size, colour = Legend)
-) +
-geom_line(aes(y = ft_resize, colour = "ft::resize(n)"), linewidth = 1) +
-geom_line(aes(y = std_resize, colour = "std::resize(n)"), linewidth = 0.5) +
-geom_line(aes(y = ft_reserve, colour = "ft::reserve(n)"), linewidth = 1) +
-geom_line(aes(y = std_reserve, colour = "std::reserve(n)"), linewidth = 0.5) +
-scale_color_manual(values = c("ft::resize(n)" = "#CB4335", "std::resize(n)" = "#E59866", "ft::reserve(n)" = "#2980B9", "std::reserve(n)" = "#85C1E9")) +
-scale_x_log10() +
-scale_y_log10() +
-labs(x = "Vector size", y = "Time (ms)") +
-# ylim(0, 3) +
-theme_bw() +
-ggtitle(label = "vector<>::resize/reserve methods") +
-theme(plot.title = element_text(hjust = 0.5))
+# #saving the plot in a variable
+# resize_reserve_plot <- ggplot(
+#     data = data_resize_reserve,
+#     aes(x = size, colour = Legend)
+# ) +
+# geom_line(aes(y = ft_resize, colour = "ft::resize(n)"), linewidth = 1) +
+# geom_line(aes(y = std_resize, colour = "std::resize(n)"), linewidth = 0.5) +
+# geom_line(aes(y = ft_reserve, colour = "ft::reserve(n)"), linewidth = 1) +
+# geom_line(aes(y = std_reserve, colour = "std::reserve(n)"), linewidth = 0.5) +
+# scale_color_manual(values = c("ft::resize(n)" = "#CB4335", "std::resize(n)" = "#E59866", "ft::reserve(n)" = "#2980B9", "std::reserve(n)" = "#85C1E9")) +
+# scale_x_log10() +
+# scale_y_log10() +
+# labs(x = "Vector size", y = "Time (ms)") +
+# # ylim(0, 3) +
+# theme_bw() +
+# ggtitle(label = "vector<>::resize/reserve methods") +
+# theme(plot.title = element_text(hjust = 0.5))
 
 ############## Output ##############
 
 #arranging all the plots in a grid on the same page
-ggarrange(assign_plot, insert_plot, erase_plot, resize_reserve_plot, ncol = 2, nrow = 2)
+ggarrange(assign_plot, insert_plot, erase_plot, ncol = 2, nrow = 2)
 
 dev.off()
 browseURL("benchmark.png")

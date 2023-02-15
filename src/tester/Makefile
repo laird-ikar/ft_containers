@@ -6,7 +6,7 @@
 #    By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 14:33:27 by bguyot            #+#    #+#              #
-#    Updated: 2023/02/15 17:29:43 by bguyot           ###   ########.fr        #
+#    Updated: 2023/02/15 17:52:26 by bguyot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ all: benchmark clean
 benchmark:	tests
 	@./test.sh
 
-tests: vector_assign vector_insert vector_erase vector_resize_reserve
+tests: vector_assign vector_insert vector_erase 
 
 vector_assign:  tests/vector_assign.cpp
 	@$(CC) $(CFLAGS) -D FT -D VAL -o test_ft_vector_assign tests/vector_assign.cpp

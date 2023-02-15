@@ -72,21 +72,21 @@ done
 printf "\e[35done !\n\e[39m"
 
 #resize and reserve
-printf "\e[35mMethods\t[reserve]/[resize]\t\t\e[39m"
-for SIZE in 10 100 200 500 1000 2000 5000 10000 20000 50000 100000 200000 500000 1000000
-do
-    printf ". "
-    printf "$SIZE;" >> output/test_vector_resize_reserve.txt
-    (time ./test_std_vector_resize $SIZE) 2>&1 | grep "real" | cut -f2 | cut -f2 -d'm' | cut -f1 -d's' | tr -d '\n' >> output/test_vector_resize_reserve.txt
-    printf ";" >> output/test_vector_resize_reserve.txt
-    (time ./test_ft_vector_resize $SIZE) 2>&1 | grep "real" | cut -f2 | cut -f2 -d'm' | cut -f1 -d's' | tr -d '\n' >> output/test_vector_resize_reserve.txt
-    printf ";" >> output/test_vector_resize_reserve.txt
-    (time ./test_std_vector_reserve $SIZE) 2>&1 | grep "real" | cut -f2 | cut -f2 -d'm' | cut -f1 -d's' | tr -d '\n' >> output/test_vector_resize_reserve.txt
-    printf ";" >> output/test_vector_resize_reserve.txt
-    (time ./test_ft_vector_reserve $SIZE) 2>&1 | grep "real" | cut -f2 | cut -f2 -d'm' | cut -f1 -d's' | tr -d '\n' >> output/test_vector_resize_reserve.txt
-    printf "\n" >> output/test_vector_resize_reserve.txt
-done
-printf "\e[35mdone !\n\e[39m"
+# printf "\e[35mMethods\t[reserve]/[resize]\t\t\e[39m"
+# for SIZE in 10 100 200 500 1000 2000 5000 10000 20000 50000 100000 200000 500000 1000000
+# do
+#     printf ". "
+#     printf "$SIZE;" >> output/test_vector_resize_reserve.txt
+#     (time ./test_std_vector_resize $SIZE) 2>&1 | grep "real" | cut -f2 | cut -f2 -d'm' | cut -f1 -d's' | tr -d '\n' >> output/test_vector_resize_reserve.txt
+#     printf ";" >> output/test_vector_resize_reserve.txt
+#     (time ./test_ft_vector_resize $SIZE) 2>&1 | grep "real" | cut -f2 | cut -f2 -d'm' | cut -f1 -d's' | tr -d '\n' >> output/test_vector_resize_reserve.txt
+#     printf ";" >> output/test_vector_resize_reserve.txt
+#     (time ./test_std_vector_reserve $SIZE) 2>&1 | grep "real" | cut -f2 | cut -f2 -d'm' | cut -f1 -d's' | tr -d '\n' >> output/test_vector_resize_reserve.txt
+#     printf ";" >> output/test_vector_resize_reserve.txt
+#     (time ./test_ft_vector_reserve $SIZE) 2>&1 | grep "real" | cut -f2 | cut -f2 -d'm' | cut -f1 -d's' | tr -d '\n' >> output/test_vector_resize_reserve.txt
+#     printf "\n" >> output/test_vector_resize_reserve.txt
+# done
+# printf "\e[35mdone !\n\e[39m"
 
 #run R script to generate png
 Rscript test.r 2>&1 > /dev/null
