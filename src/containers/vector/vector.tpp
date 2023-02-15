@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/15 16:09:08 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/15 18:13:40 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -392,9 +392,13 @@ namespace ft
         typename vector<T,Alloc>::iterator position
         )
     {
-        for (iterator it = position; it != this->end(); it++)
-            *it = *(it + 1);
-        this->_allocator.destroy(this->_data + this->_size - 1);
+        std::memmove(
+                &(*position),
+                &(*(position + 1)),
+                (this->end() - position) * sizeof(value_type)
+            );
+        if (std::is_trivially_destructible<value_type>::value == false)
+            this->_allocator.destroy(this->_data + this->_size - 1);
         this->_size--;
         return (position);
     }
@@ -405,13 +409,15 @@ namespace ft
         typename vector<T,Alloc>::iterator last
         )
     {
-        size_type n = 0;
-        for (iterator it = first; it != last; it++)
-            n++;
-        for (iterator it = first; it != this->end(); it++)
-            *it = *(it + n);
-        for (size_type i = 0; i < n; i++)
-            this->_allocator.destroy(this->_data + this->_size - 1 - i);
+        size_type n = std::distance(first, last);
+        std::memmove(
+                &(*first),
+                &(*(first + n)),
+                (this->end() - first) * sizeof(value_type)
+            );
+        if (std::is_trivially_destructible<value_type>::value == false)
+            for (size_type i = 0; i < n; i++)
+                this->_allocator.destroy(this->_data + this->_size - 1 - i);
         this->_size -= n;
         return (first);
     }
