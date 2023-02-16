@@ -6,7 +6,7 @@
 #    By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 14:33:27 by bguyot            #+#    #+#              #
-#    Updated: 2023/02/15 17:58:51 by bguyot           ###   ########.fr        #
+#    Updated: 2023/02/16 15:44:55 by bguyot           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ all: benchmark clean
 benchmark:	tests
 	@./test.sh
 
-tests: vector_assign vector_insert vector_erase vector_resize_reserve
+tests: vector_assign vector_insert vector_erase vector_resize_reserve vector_egal
 
 vector_assign:  tests/vector_assign.cpp
 	@$(CC) $(CFLAGS) -D FT -D VAL -o test_ft_vector_assign tests/vector_assign.cpp
@@ -46,6 +46,10 @@ vector_resize_reserve:  tests/vector_resize_reserve.cpp
 	@$(CC) $(CFLAGS) -D FT -D SIZE -o test_ft_vector_reserve tests/vector_resize_reserve.cpp
 	@$(CC) $(CFLAGS) -D SIZE -o test_std_vector_reserve tests/vector_resize_reserve.cpp
 
+vector_egal: tests/vector_egal.cpp
+	@$(CC) $(CFLAGS) -D FT -o test_ft_vector_egal tests/vector_egal.cpp
+	@$(CC) $(CFLAGS) -o test_std_vector_egal tests/vector_egal.cpp
+
 clean:
 	@rm -f test_ft_vector_assign
 	@rm -f test_std_vector_assign
@@ -61,3 +65,7 @@ clean:
 	@rm -f test_std_vector_erase_it
 	@rm -f test_ft_vector_erase
 	@rm -f test_std_vector_erase
+	@rm -f test_ft_vector_resize
+	@rm -f test_std_vector_resize
+
+re: clean all

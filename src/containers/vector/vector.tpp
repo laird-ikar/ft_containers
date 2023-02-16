@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/15 18:13:40 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/16 13:18:32 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -425,9 +425,10 @@ namespace ft
     template<class T, class Alloc>
     void    vector<T,Alloc>::swap(vector<T,Alloc> &x)
     {
-        vector<T,Alloc> tmp = *this;
-        *this = x;
-        x = tmp;
+        ft::swap(this->_data, x._data);
+        ft::swap(this->_size, x._size);
+        ft::swap(this->_allocated_size, x._allocated_size);
+        ft::swap(this->_allocator, x._allocator);
     }
 
     template<class T, class Alloc>

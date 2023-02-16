@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/15 18:13:40 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/16 14:05:20 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "../../helpers/enable_if/enable_if.hpp"
 #include "../../helpers/is_integral/is_integral.hpp"
 #include "../../helpers/distance/distance.hpp"
+#include "../../helpers/swap/swap.hpp"
 
 namespace ft
 {

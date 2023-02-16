@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 11:27:08 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/08 14:55:20 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/16 13:16:46 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft
 		const typename ft::reverse_iterator<Iter> &rhs
 		)
 	{
-		this->it = iterator_type(rhs.it);
+		this->it = iterator_type(rhs.base());
 	}
 	
 	/**************************** ACCESSORS ***********************************/
@@ -42,7 +42,7 @@ namespace ft
 	typename reverse_iterator<It>::iterator_type
 		reverse_iterator<It>::base(void)	const
 	{
-		return iterator_type(it + 1); //TODO: test
+		return iterator_type(it); //TODO: test
 	}
 
 	/************************ ARITHMETIC OPERATORS ****************************/
@@ -92,19 +92,10 @@ namespace ft
 	}
 
 	template<class It>
-	reverse_iterator<It>	reverse_iterator<It>::operator+(
-		typename reverse_iterator<It>::difference_type n
-		)	const
+	template<class Iter>
+	typename reverse_iterator<It>::difference_type	reverse_iterator<It>::operator-(const reverse_iterator<Iter> &rhs) const
 	{
-		return reverse_iterator(it - n);
-	}
-
-	template<class It>
-	reverse_iterator<It>	reverse_iterator<It>::operator-(
-		typename reverse_iterator<It>::difference_type n
-		)	const
-	{
-		return reverse_iterator(it + n);
+		return -(base() - rhs.base());
 	}
 
 	/*********************** DEREFERENCE OPERATORS ****************************/
@@ -125,71 +116,6 @@ namespace ft
 	typename reverse_iterator<It>::reference	reverse_iterator<It>::operator[](reverse_iterator<It>::difference_type n) const
 	{
 		return (base()[-n-1]);
-	}
-
-	/********************* EXTERNAL RELATIONNAL OPERATORS *********************/
-
-
-	// template<class It>
-	// bool	operator==(
-	// 	const reverse_iterator<It> &lhs,
-	// 	const reverse_iterator<It> &rhs
-	// 	)
-
-
-	// template<class It>
-	// bool	operator!=(
-	// 	const reverse_iterator<It> &lhs,
-	// 	const reverse_iterator<It> &rhs
-	// 	)
-
-
-	// template<class It>
-	// bool	operator<(
-	// 	const reverse_iterator<It> &lhs,
-	// 	const reverse_iterator<It> &rhs
-	// 	)
-
-
-	// template<class It>
-	// bool	operator<=(
-	// 	const reverse_iterator<It> &lhs,
-	// 	const reverse_iterator<It> &rhs
-	// 	)
-
-
-	// template<class It>
-	// bool	operator>(
-	// 	const reverse_iterator<It> &lhs,
-	// 	const reverse_iterator<It> &rhs
-	// 	)
-
-
-	// template<class It>
-	// bool	operator>=(
-	// 	const reverse_iterator<It> &lhs,
-	// 	const reverse_iterator<It> &rhs
-	// 	)
-
-
-	/********************* EXTERNAL ARITHMETIC OPERATORS **********************/
-
-	template<class It>
-	reverse_iterator<It>	operator+(
-		typename reverse_iterator<It>::difference_type n,
-		const reverse_iterator<It> &rhs
-		)
-	{
-		return reverse_iterator<It>(rhs.it - n);
-	}
-
-	template<class It>
-	typename reverse_iterator<It>::difference_type	operator-(
-		const reverse_iterator<It> &lhs,
-		const reverse_iterator<It> &rhs
-		)
-	{
-		return rhs.it - lhs.it;
 	}
 }
 

@@ -102,20 +102,14 @@ namespace ft
 			 * @return	A reference to the decremented reverse_iterator
 			 */
 			reverse_iterator	&operator-=(difference_type n);
-
+			
 			/**
-			 * @brief	Increments the reverse_iterator by n
-			 * @param	n	the number of incrementations
-			 * @return	A copy of the incremented reverse_iterator
+			 * @brief	Calculates the distance between two reverse_iterators
+			 * @param	rhs	the second reverse_iterator
+			 * @return	The distance between the two reverse_iterators
 			 */
-			reverse_iterator	operator+(difference_type n)	const;
-
-			/**
-			 * @brief	Decrements the reverse_iterator by n
-			 * @param	n	the number of decrements
-			 * @return	A copy of the decremented reverse_iterator
-			 */
-			reverse_iterator	operator-(difference_type n)	const;
+			template<class Iter>
+			difference_type	operator-(const reverse_iterator<Iter> &rhs) const;
 
 		/********************* DEREFERENCE OPERATORS **************************/
 
@@ -146,9 +140,10 @@ namespace ft
 			 * @param	rhs	the second reverse_iterator
 			 * @return	True if the base iterators are equal, false otherwise
 			 */
-			friend bool	operator==(const reverse_iterator &lhs, const reverse_iterator &rhs)
+			template<class Iter1, class Iter2>
+			friend bool	operator==(const reverse_iterator<Iter1> &lhs, const reverse_iterator<Iter2> &rhs)
 			{
-				return lhs.it == rhs.it;
+				return lhs.base() == rhs.base();
 			}
 
 			/**
@@ -157,9 +152,10 @@ namespace ft
 			 * @param	rhs	the second reverse_iterator
 			 * @return	True if the base iterators are not equal, false otherwise
 			 */
-			friend bool	operator!=(const reverse_iterator &lhs, const reverse_iterator &rhs)
+			template<class Iter1, class Iter2>
+			friend bool	operator!=(const reverse_iterator<Iter1> &lhs, const reverse_iterator<Iter2> &rhs)
 			{
-				return lhs.it != rhs.it;
+				return lhs.base() != rhs.base();
 			}
 
 			/**
@@ -168,9 +164,10 @@ namespace ft
 			 * @param	rhs	the second reverse_iterator
 			 * @return	True if the base iterator of lhs is less than the base iterator of rhs, false otherwise
 			 */
-			friend bool	operator<(const reverse_iterator &lhs, const reverse_iterator &rhs)
+			template<class Iter1, class Iter2>
+			friend bool	operator<(const reverse_iterator<Iter1> &lhs, const reverse_iterator<Iter2> &rhs)
 			{
-				return lhs.it > rhs.it;
+				return lhs.base() > rhs.base();
 			}
 
 			/**
@@ -179,9 +176,10 @@ namespace ft
 			 * @param	rhs	the second reverse_iterator
 			 * @return	True if the base iterator of lhs is less than or equal to the base iterator of rhs, false otherwise
 			 */
-			friend bool	operator<=(const reverse_iterator &lhs, const reverse_iterator &rhs)
+			template<class Iter1, class Iter2>
+			friend bool	operator<=(const reverse_iterator<Iter1> &lhs, const reverse_iterator<Iter2> &rhs)
 			{
-				return lhs.it >= rhs.it;
+				return lhs.base() >= rhs.base();
 			}
 
 			/**
@@ -190,9 +188,10 @@ namespace ft
 			 * @param	rhs	the second reverse_iterator
 			 * @return	True if the base iterator of lhs is greater than the base iterator of rhs, false otherwise
 			 */
-			friend bool	operator>(const reverse_iterator &lhs, const reverse_iterator &rhs)
+			template<class Iter1, class Iter2>
+			friend bool	operator>(const reverse_iterator<Iter1> &lhs, const reverse_iterator<Iter2> &rhs)
 			{
-				return lhs.it < rhs.it;
+				return lhs.base() < rhs.base();
 			}
 
 			/**
@@ -201,9 +200,10 @@ namespace ft
 			 * @param	rhs	the second reverse_iterator
 			 * @return	True if the base iterator of lhs is greater than or equal to the base iterator of rhs, false otherwise
 			 */
-			friend bool	operator>=(const reverse_iterator &lhs, const reverse_iterator &rhs)
+			template<class Iter1, class Iter2>
+			friend bool	operator>=(const reverse_iterator<Iter1> &lhs, const reverse_iterator<Iter2> &rhs)
 			{
-				return lhs.it <= rhs.it;
+				return lhs.base() <= rhs.base();
 			}
 
 		/********************** EXTERNAL ARITHMETIC OPERATORS *****************/
@@ -214,7 +214,10 @@ namespace ft
 			 * @param	n	the number of incrementations
 			 * @return	A copy of the incremented reverse_iterator
 			 */
-			friend reverse_iterator<It>	operator+(const reverse_iterator &lhs, difference_type n);
+			friend reverse_iterator<It>	operator+(const reverse_iterator &lhs, difference_type n)
+			{
+				return reverse_iterator<It>(lhs.it - n);
+			}
 
 			/**
 			 * @brief	Decrements the reverse_iterator by n
@@ -222,7 +225,21 @@ namespace ft
 			 * @param	n	the number of decrements
 			 * @return	A copy of the decremented reverse_iterator
 			 */
-			friend reverse_iterator<It>	operator-(const reverse_iterator &lhs, difference_type n);
+			friend reverse_iterator<It>	operator-(const reverse_iterator &lhs, difference_type n)
+			{
+				return reverse_iterator<It>(lhs.it + n);
+			}
+
+			/**
+			 * @brief	Decrements the reverse_iterator by n
+			 * @param	n	the number of decrements
+			 * @param	rhs	the reverse_iterator
+			 * @return	A copy of the decremented reverse_iterator
+			 */
+			friend reverse_iterator<It>	operator+(difference_type n, const reverse_iterator &lhs)
+			{
+				return reverse_iterator<It>(lhs.it - n);
+			}
 	};
 }
 
