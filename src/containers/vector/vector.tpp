@@ -6,7 +6,7 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:47:39 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/16 13:18:32 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/17 12:56:18 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,39 @@ namespace ft
             this->_allocator.construct(this->_data + i, val);
     }
 
+    template<class T, class Alloc>
+    template<class InputIterator>
+    void vector<T, Alloc>::do_construct(
+        InputIterator first,
+        InputIterator last,
+        std::input_iterator_tag
+        )
+    {
+        size_type size = ft::distance(first, last);;
+        _allocated_size = 0;
+        _size = 0;
+        reserve(size);
+        for (size_type i = 0; i < size; i++)
+            _allocator.construct(_data + i, *first++);
+        _size = size;
+    }
+
+    template<class T, class Alloc>
+    template<class InputIterator>
+    void vector<T, Alloc>::do_construct(
+        InputIterator first,
+        InputIterator last,
+        std::random_access_iterator_tag
+        )
+    {
+        size_type size = ft::distance(first, last);;
+        _allocated_size = 0;
+        _size = 0;
+        reserve(size);
+        std::memmove(_data, &(*first), size * sizeof(value_type));
+        _size = size;
+    }
+
 	template<class T, class Alloc>
     template<class InputIterator>
     vector<T, Alloc>::vector(
@@ -46,13 +79,11 @@ namespace ft
         const typename vector<T,Alloc>::allocator_type &alloc,
         typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type*
         )
-	{
-        this->_size = 0;
-        this->_allocated_size = 0;
-        this->_allocator = alloc;
-        for (InputIterator it = first; it != last; it++)
-            this->push_back(*it);
+    {
+        _allocator = alloc;
+        do_construct(first, last, typename ft::iterator_traits<InputIterator>::iterator_category());
     }
+
 
     template<class T, class Alloc>
     vector<T,Alloc>::vector(const vector<T,Alloc> &x)

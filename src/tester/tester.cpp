@@ -6,12 +6,13 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:45:31 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/16 14:05:19 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/17 12:42:21 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
+#include <list>
 
 #ifndef FT
 	#include <vector>
@@ -28,26 +29,37 @@ typedef struct s_test
 
 int main()
 {
-		const int size = 5;
-	ft::vector<int> vct(size);
-	ft::vector<int>::reverse_iterator it = vct.rbegin();
-	ft::vector<int>::const_reverse_iterator ite = vct.rbegin();
+	ft::vector<int> vct(5);
+	ft::vector<int>::iterator it = vct.begin(), ite = vct.end();
 
-	for (int i = 0; i < size; ++i)
-		it[i] = (size - i) * 5;
+	std::cout << "len: " << (ite - it) << std::endl;
+	for (; it != ite; ++it)
+		*it = (ite - it);
+	it = vct.begin();
+	ft::vector<int> vct_range(it, --(--ite));
+	std::cout << "plouf" << std::endl;
+	for (int i = 0; it != ite; ++it)
+		*it = ++i * 5;
 
-	it = it + 5;
-	it = 1 + it;
-	it = it - 4;
-	std::cout << *(it += 2) << std::endl;
-	std::cout << *(it -= 1) << std::endl;
+	it = vct.begin();
+	ft::vector<int> vct_copy(vct);
+	for (int i = 0; it != ite; ++it)
+		*it = ++i * 7;
+	vct_copy.push_back(42);
+	vct_copy.push_back(21);
 
-	*(it -= 2) = 42;
-	*(it += 2) = 21;
+	std::cout << "\t-- PART ONE --" << std::endl;
+// 	printSize(vct);
+	// printSize(vct_range);
+	// printSize(vct_copy);
 
-	std::cout << "const_ite +=/-=: " << *(ite += 2) << " | " << *(ite -= 2) << std::endl;
+	vct = vct_copy;
+	vct_copy = vct_range;
+	vct_range.clear();
 
-	std::cout << "(it == const_it): " << (ite == it) << std::endl;
-	std::cout << "(const_ite - it): " << (ite - it) << std::endl;
-	std::cout << "(ite + 3 == it): " << (ite + 3 == it) << std::endl;
+	std::cout << "\t-- PART TWO --" << std::endl;
+	// printSize(vct);
+	// printSize(vct_range);
+	// printSize(vct_copy);
+	return (0);
 }

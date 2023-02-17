@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
+/*   By: event <event@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/16 14:05:20 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/16 17:50:55 by event            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -549,6 +549,12 @@ namespace ft
 
 			template <class InputIterator>
 			void do_assign(InputIterator first, InputIterator last, std::random_access_iterator_tag);
+			
+			template <class InputIterator>
+			void do_construct(InputIterator first, InputIterator last, std::input_iterator_tag);
+
+			template <class InputIterator>
+			void do_construct(InputIterator first, InputIterator last, std::random_access_iterator_tag);
 	};
 
 	/*********************************************************************************/
