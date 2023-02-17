@@ -6,12 +6,11 @@
 /*   By: bguyot <bguyot@student.42mulhouse.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:34:18 by bguyot            #+#    #+#             */
-/*   Updated: 2023/02/17 10:45:43 by bguyot           ###   ########.fr       */
+/*   Updated: 2023/02/17 16:32:22 by bguyot           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	MAP_HPP
-#define MAP_HPP
+#pragma once
 
 #include <memory>
 
@@ -354,4 +353,5 @@ namespace ft
 	void swap(map<Key, T, Compare, Alloc> &x, map<Key, T, Compare, Alloc> &y);
 };
 
-#endif
+#include "map.tpp"
+#include "map_iterator.hpp"
